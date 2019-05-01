@@ -6,7 +6,7 @@ module Kafkat
       assignments.each { |a| print_assignment(a) }
       print "\n"
 
-      return unless agree("Proceed (y/n)?")
+      return unless config.implicit_consent or agree("Proceed (y/n)?")
 
       result = nil
       begin

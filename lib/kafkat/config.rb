@@ -11,6 +11,8 @@ module Kafkat
     attr_reader :kafka_path
     attr_reader :log_path
     attr_reader :zk_path
+    attr_reader :implicit_consent
+    attr_reader :debug
 
     def self.load!
       string = nil
@@ -40,6 +42,20 @@ module Kafkat
       @kafka_path = json['kafka_path']
       @log_path = json['log_path']
       @zk_path = json['zk_path']
+
+      # Boolean: controls whether "Proceed? (y/n)" prompts are shown or not
+      if json['implicit_consent'].nil?
+        @implicit_consent = false
+      else
+        @implicit_consent = json['implicit_consent']
+      end
+
+      # Boolean: controls whether debugging info is printed
+      if json['debug'].nil?
+        @debug = false
+      else
+        @debug = json['debug']
+      end
     end
   end
 end

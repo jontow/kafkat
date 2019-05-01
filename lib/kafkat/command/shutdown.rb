@@ -14,7 +14,7 @@ module Kafkat
         end
 
         print "This operation gracefully removes leaderships from broker '#{broker_id}'.\n"
-        return unless agree("Proceed (y/n)?")
+        return unless config.implicit_consent or agree("Proceed (y/n)?")
 
         result = nil
         begin

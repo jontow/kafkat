@@ -29,7 +29,7 @@ module Kafkat
         topics = topic_name && zookeeper.get_topics([topic_name])
         topics ||= zookeeper.get_topics
 
-        opts = Trollop.options do
+        opts = Optimist.options do
           opt :brokers, "the comma-separated list of broker the new partitions must be assigned to", type: :string
           opt :newrf, "the new replication factor", type: :integer, required: true
         end
@@ -78,7 +78,7 @@ module Kafkat
           assignments.each { |a| print_assignment(a) }
           print "\n"
 
-          return unless agree("Proceed (y/n)?")
+          return unless config.implicit_consent or agree("Proceed (y/n)?")
 
           result = nil
           begin

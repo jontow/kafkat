@@ -16,14 +16,14 @@ module Kafkat
           exit 1
         end
 
-        opts = Trollop.options do
+        opts = Optimist.options do
           opt :force, "force"
         end
 
         print "This operation rewrites leaderships in ZK to exclude broker '#{broker_id}'.\n"
         print "WARNING: This is a last resort. Try the 'shutdown' command first!\n\n".red
 
-        return unless agree("Proceed (y/n)?")
+        return unless config.implicit_consent or agree("Proceed (y/n)?")
 
         brokers = zookeeper.get_brokers
         topics = zookeeper.get_topics

@@ -15,7 +15,7 @@ module Kafkat
 
         topics_s = topic_name ? "'#{topic_name}'" : "all topics"
         print "This operation elects the preferred replicas for #{topics_s}.\n"
-        return unless agree("Proceed (y/n)?")
+        return unless config.implicit_consent or agree("Proceed (y/n)?")
 
         result = nil
         begin

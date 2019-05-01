@@ -1,9 +1,10 @@
 require 'zk'
 require 'json'
-require 'trollop'
+require 'optimist'
 require 'retryable'
 require 'highline/import'
 require 'colored'
+require 'pp'
 
 require 'kafkat/version'
 require 'kafkat/utility'
