@@ -7,7 +7,7 @@ module Kafkat
             'Print configuration'
 
       def run
-        p config
+        pp config
       end
     end
   end

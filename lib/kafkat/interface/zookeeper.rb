@@ -11,6 +11,7 @@ module Kafkat
 
       def initialize(config)
         @zk_path = config.zk_path
+        @debug = config.debug
       end
 
       def get_broker_ids
@@ -32,6 +33,7 @@ module Kafkat
         end
         threads.map(&:join)
 
+	pp brokers if @debug
         brokers
       end
 
@@ -59,21 +61,20 @@ module Kafkat
           end
         end
 
-        threads = names.map do |name|
-          Thread.new do
-            begin
-              topics[name] = get_topic(name)
-            rescue => e
-              error_msgs[name] = e
-            end
+        names.each do |name|
+          begin
+            topics[name] = get_topic(name)
+          rescue => e
+            error_msgs[name] = e
           end
         end
-        threads.map(&:join)
 
         unless error_msgs.empty?
           STDERR.print "ERROR: zk cmds failed on get_topics: \n#{error_msgs.values.join("\n")}\n"
           exit 1
         end
+
+	pp topics if @debug
         topics
       end
 
@@ -85,6 +86,8 @@ module Kafkat
         partitions = []
         topic_string = pool.with_connection { |cnx| cnx.get(path1).first }
         partition_ids = pool.with_connection { |cnx| cnx.children(path2) }
+
+        p name if @debug
 
         topic_json = JSON.parse(topic_string)
 

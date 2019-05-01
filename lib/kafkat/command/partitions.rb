@@ -20,7 +20,10 @@ module Kafkat
         end
 
         brokers = zookeeper.get_brokers
+        pp brokers if config.debug
+
         topics = zookeeper.get_topics(topic_names)
+        pp topics if config.debug
 
         print_partition_header
         topics.each do |name, t|
